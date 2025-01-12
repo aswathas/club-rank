@@ -1,175 +1,187 @@
-# Club Ranking System: Instructions for AI Agents
+Club Ranking System: Instructions for AI Agents
 
-## Overview
+Overview
 
-This document provides instructions for AI agents working on the **Web3-based Club Ranking System**, modeled after ICC player rankings. The system is designed to prioritize the quality of projects over quantity. Only the club head can modify rankings, ensuring a centralized ranking authority.
+This document provides instructions for AI agents working on the Web3-based Club Ranking System, modeled after ICC player rankings. The system is designed to prioritize the quality of projects over quantity. Only the club head can modify rankings, ensuring a centralized ranking authority.
 
----
+Goals
 
-## Goals
+Build a Web3-enabled ranking system.
 
-- Build a Web3-enabled ranking system.
-- Evaluate club members based on performance, focusing on project quality.
-- Ensure rankings are immutable by regular users.
+Evaluate club members based on performance, focusing on project quality.
 
----
+Ensure rankings are immutable by regular users.
 
-## Key Functionalities
+Key Functionalities
 
-1. **Authentication**:
+Authentication:
 
-   - JWT-based user authentication.
-   - Roles: Club Head (admin privileges), Club Members (view-only access).
+JWT-based user authentication.
 
-2. **Club Management**:
+Roles: Club Head (admin privileges), Club Members (view-only access).
 
-   - Register clubs.
-   - Manage domains within clubs.
+Club Management:
 
-3. **Student Management**:
+Register clubs.
 
-   - Add and update student profiles.
-   - Assign students to specific domains.
+Manage domains within clubs.
 
-4. **Ranking System**:
+Student Management:
 
-   - Club head assigns scores to members.
-   - Scores are converted into rankings.
+Add and update student profiles.
 
-5. **Web3 Integration**:
+Assign students to specific domains.
 
-   - Use blockchain for recording rankings.
-   - Immutable ranking data stored on-chain.
-   - At the end of the semester, average scores are calculated and used to generate tokens.
+Ranking System:
 
----
+Club head assigns scores to members.
 
-## Project Structure
+Scores are converted into rankings.
 
-### File System
+Web3 Integration:
 
-```
+Use blockchain for recording rankings.
+
+Immutable ranking data stored on-chain.
+
+At the end of the semester, average scores are calculated and used to generate tokens.
+
+Project Structure
+
+File System
+
 club-ranking-system/
-├── cmd/               # Entry points
-├── internal/          # Core modules
-│   ├── auth/          # Authentication logic
-│   ├── clubs/         # Club-related features
-│   ├── students/      # Student management
-│   ├── ranking/       # Ranking logic
-│   └── utils/         # Utility functions
-├── migrations/        # Database migrations
-├── config/            # Configuration files
-├── docs/              # Documentation
-└── go.mod             # Dependency file
-```
+├── cmd/ # Entry points
+├── internal/ # Core modules
+│ ├── auth/ # Authentication logic
+│ ├── clubs/ # Club-related features
+│ ├── students/ # Student management
+│ ├── ranking/ # Ranking logic
+│ └── utils/ # Utility functions
+├── migrations/ # Database migrations
+├── config/ # Configuration files
+├── docs/ # Documentation
+└── go.mod # Dependency file
 
----
+APIs
 
-## APIs
+Authentication
 
-### Authentication
+POST /login: User login (JWT token).
 
-- `POST /login`: User login (JWT token).
-- `POST /register`: Register club heads.
+POST /register: Register club heads.
 
-### Club Management
+Club Management
 
-- `POST /clubs`: Create a new club.
-- `GET /clubs`: List all clubs.
+POST /clubs: Create a new club.
 
-### Student Management
+GET /clubs: List all clubs.
 
-- `POST /students`: Add students.
-- `GET /students`: List students.
+Student Management
 
-### Ranking
+POST /students: Add students.
 
-- `POST /rankings`: Add or update rankings.
-- `GET /rankings`: Fetch rankings.
+GET /students: List students.
 
----
+Ranking
 
-## Web3 Integration
+POST /rankings: Add or update rankings.
 
-1. **Blockchain Platform**: Use Ethereum or Polygon.
-2. **Smart Contract**:
-   - Store rankings and metadata.
-   - Ensure write access for club heads only.
-   - Generate tokens based on averaged scores at the semester’s end.
+GET /rankings: Fetch rankings.
 
----
+Web3 Integration
 
-## Frontend and Backend
+Blockchain Platform: Use Ethereum or Polygon.
 
-### Frontend
-- **Framework**: Svelte for a lightweight and responsive UI.
-- **Features**:
-  - Authentication pages for login and signup.
-  - Club management dashboards.
-  - Real-time rankings display.
+Smart Contract:
 
-### Backend
-- **Language**: Go
-- **Framework**: Gin or Echo
-- **Database**: PostgreSQL
-- **Functionality**:
-  - APIs to manage clubs, students, rankings, and authentication.
-  - Secure token generation at semester-end.
+Store rankings and metadata.
 
----
+Ensure write access for club heads only.
 
-## Development Tools
+Generate tokens based on averaged scores at the semester’s end.
 
-- **Language**: Go
-- **Framework**: Gin or Echo
-- **Database**: PostgreSQL
-- **Blockchain**: Solidity for smart contracts
-- **Others**:
-  - GORM for ORM
-  - Viper for configuration
+Frontend and Backend
 
----
+Frontend
 
-## Next Steps
+Framework: Svelte for a lightweight and responsive UI.
 
-1. Set up the Go project and initialize dependencies.
-2. Build basic APIs for club and student management.
-3. Design and deploy the smart contract.
-4. Integrate Web3 for immutable ranking storage.
-5. Generate tokens after averaging scores at semester’s end.
+Features:
 
-6. **Test and Deploy (Beginner-Friendly)**:
+Authentication pages for login and signup.
 
-   - **Testing**:
-     - Use Postman or curl to test each API endpoint (e.g., login, student management).
-     - Validate responses and error handling.
-     - Test the smart contract using tools like Remix or Hardhat.
-     - Simulate token generation by creating sample scores and calculating averages.
-   
-   - **Deployment**:
-     - Deploy the backend on a free or low-cost platform like Heroku or Fly.io.
-     - Deploy the frontend using services like Vercel or Netlify.
-     - For the blockchain part, deploy the smart contract to a testnet (e.g., Polygon Mumbai).
+Club management dashboards.
 
-   - **Teaching Points**:
-     - Explain how to use tools like Postman to beginners.
-     - Show step-by-step deployment with screenshots or commands.
-     - Clarify how to interact with the blockchain via a Web3 wallet like MetaMask.
+Real-time rankings display.
 
-7. Document the entire process for others to follow easily.
+Backend
 
-# Creating Backend Directory Structure
+Language: Go
 
-## Step 1: Create Backend Directory
-```bash
-mkdir -p backend/cmd
-mkdir -p backend/internal/auth
-mkdir -p backend/internal/clubs
-mkdir -p backend/internal/students
-mkdir -p backend/internal/ranking
-mkdir -p backend/internal/utils
-mkdir -p backend/migrations
-mkdir -p backend/config
-mkdir -p backend/docs
-touch backend/go.mod
-```
+Framework: Gin or Echo
+
+Database: PostgreSQL
+
+Functionality:
+
+APIs to manage clubs, students, rankings, and authentication.
+
+Secure token generation at semester-end.
+
+Development Tools
+
+Language: Go
+
+Framework: Gin or Echo
+
+Database: PostgreSQL
+
+Blockchain: Solidity for smart contracts
+
+Others:
+
+GORM for ORM
+
+Viper for configuration
+
+Next Steps
+
+1. **Set up the Go project and initialize dependencies:**
+
+   - Create a new Go module.
+   - Install necessary dependencies like Gin, GORM, and Viper.
+
+2. **Build basic APIs for club and student management:**
+
+   - Implement endpoints for creating and listing clubs.
+   - Implement endpoints for adding and listing students.
+
+3. **Design and deploy the smart contract:**
+
+   - Write a Solidity smart contract to store rankings and metadata.
+   - Deploy the smart contract to a testnet like Polygon Mumbai.
+
+4. **Integrate Web3 for immutable ranking storage:**
+
+   - Use a Web3 library to interact with the deployed smart contract from the backend.
+
+5. **Generate tokens after averaging scores at semester’s end:**
+
+   - Implement logic to calculate average scores and generate tokens.
+
+6. **Test and Deploy:**
+   - Use Postman or curl to test each API endpoint.
+   - Deploy the backend on a platform like Heroku or Fly.io.
+   - Deploy the frontend using Vercel or Netlify.
+   - Deploy the smart contract to a testnet.
+
+Teaching Points:
+
+Explain how to use tools like Postman to beginners.
+
+Show step-by-step deployment with screenshots or commands.
+
+Clarify how to interact with the blockchain via a Web3 wallet like MetaMask.
+
+Document the entire process for others to follow easily.
