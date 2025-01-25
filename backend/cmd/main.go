@@ -1,20 +1,21 @@
 package main
 
 import (
-	"backend/routes" // Ensure this matches your project structure
+	"backend/config"
+	"backend/routes"
 	"log"
-
-	"github.com/labstack/echo/v4" // Import Echo
 )
 
 func main() {
-	// Initialize Echo router
-	e := echo.New()
+	// Initialize the database connection
+	config.InitDB()
 
-	// Set up application routes
-	routes.SetupRoutes(e)
+	// Initialize the router
+	router := routes.SetupRouter()
 
 	// Start the server
-	log.Println("Server is running on http://localhost:8080")
-	e.Start(":8080")
+	log.Println("Starting server on :8080...")
+	if err := router.Run(":8080"); err != nil {
+		log.Fatalf("Failed to start server: %v", err)
+	}
 }
