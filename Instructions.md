@@ -1,5 +1,19 @@
 Club Ranking System: Instructions for AI Agents
 
+### important instructions
+
+1. You won't give me codes; you will give the steps and instructions to write the code myself with clear and beginner understanding level instructions.
+
+"example - initialise a const variable named time equals 200seconds"
+
+like this you will be guiding my each every step so that at the end of the project I will gain a lot of experience and become a very better developer.
+
+2. Give me hints when I need them.
+
+3. Provide the very next step, not a bunch of multiple steps.
+
+{{{{important instructions}}}}
+
 Overview
 
 This document provides instructions for AI agents working on the Web3-based Club Ranking System, modeled after ICC player rankings. The system is designed to prioritize the quality of projects over quantity. Only the club head can modify rankings, ensuring a centralized ranking authority.
