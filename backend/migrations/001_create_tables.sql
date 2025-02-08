@@ -6,7 +6,8 @@ CREATE TABLE users (
     password TEXT NOT NULL,
     role VARCHAR(50) NOT NULL CHECK (role IN ('super_admin', 'club_admin', 'tech_head')),
     club_id INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create clubs table

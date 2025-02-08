@@ -1,0 +1,239 @@
+swagger: "2.0"
+info:
+  title: Club Rank API
+  description: This is a sample server for Club Rank.
+  version: "1.0"
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: API Support
+    url: http://www.swagger.io/support
+    email: support@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+host: localhost:8080
+basePath: /
+schemes:
+  - http
+definitions:
+  models.Club:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1
+      name:
+        type: string
+        example: Chess Club
+      category:
+        type: string
+        example: Sports
+      description:
+        type: string
+        example: A club for chess enthusiasts
+      created_at:
+        type: string
+        example: "2025-02-08T16:13:44Z"
+      updated_at:
+        type: string
+        example: "2025-02-08T16:13:44Z"
+      deleted_at:
+        type: string
+        example: "null"
+      rating:
+        type: number
+        example: 4.5
+  models.ClubListResponse:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/models.Club'
+      message:
+        type: string
+        example: Clubs retrieved successfully
+      status:
+        type: string
+        example: success
+  models.ClubResponse:
+    type: object
+    properties:
+      data:
+        $ref: '#/definitions/models.Club'
+      message:
+        type: string
+        example: Club created successfully
+      status:
+        type: string
+        example: success
+  models.ErrorResponse:
+    type: object
+    properties:
+      message:
+        type: string
+        example: Error message
+      status:
+        type: string
+        example: error
+  models.Response:
+    type: object
+    properties:
+      data: {}
+      message:
+        type: string
+        example: Operation successful
+      status:
+        type: string
+        example: success
+paths:
+  /api/clubs:
+    get:
+      summary: Get all clubs
+      description: Get list of all clubs
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ClubListResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models/ErrorResponse'
+      tags:
+        - clubs
+    post:
+      summary: Create a new club
+      description: Create a new club with the provided information
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: club
+          description: Club object
+          required: true
+          schema:
+            $ref: '#/definitions/models.Club'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.ClubResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models/ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models/ErrorResponse'
+      tags:
+        - clubs
+  /clubs:
+    get:
+      summary: Get club list
+      description: Get list of all clubs
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.Club'
+      tags:
+        - clubs
+  /clubs/{id}:
+    get:
+      summary: Get a club by ID
+      description: Get a club by ID
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: Club ID
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Club'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models/ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models/ErrorResponse'
+      tags:
+        - clubs
+    put:
+      summary: Update a club
+      description: Update a club
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: Club ID
+          required: true
+          type: integer
+        - name: club
+          in: body
+          description: Club
+          required: true
+          schema:
+            $ref: '#/definitions/models.Club'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Club'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models/ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models/ErrorResponse'
+      tags:
+        - clubs
+    delete:
+      summary: Delete a club
+      description: Delete a club
+      parameters:
+        - name: id
+          in: path
+          description: Club ID
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models/ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models/ErrorResponse'
+      tags:
+        - clubs
