@@ -15,8 +15,12 @@ import (
 func SetupRouter() *gin.Engine {
 	router := gin.Default()
 
+	// Serve swagger.yaml as static file to load custom documentation.
+	router.StaticFile("/swagger.yaml", "./docs/swagger.yaml")
 	// Serve Swagger UI BEFORE applying middleware so it remains public.
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	router.GET("/swagger/*any", ginSwagger.CustomWrapHandler(&ginSwagger.Config{
+	    URL: "/swagger.yaml",
+	}, swaggerfiles.Handler))
 
 	// Apply middleware
 	router.Use(middleware.Auth())
@@ -64,3 +68,4 @@ func SetupRouter() *gin.Engine {
 func getClubs(c *gin.Context) {
     // ...existing code...
 }
+

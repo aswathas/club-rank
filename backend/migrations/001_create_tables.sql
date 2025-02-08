@@ -16,7 +16,8 @@ CREATE TABLE clubs (
     name VARCHAR(255) NOT NULL,
     logo TEXT,
     subdomain VARCHAR(255) UNIQUE NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create domains table
