@@ -2,29 +2,17 @@ basePath: /
 definitions:
   models.Club:
     properties:
-      category:
-        example: Sports
-        type: string
-      created_at:
-        example: "2025-02-08T16:13:44Z"
-        type: string
-      deleted_at:
-        example: "null"
-        type: string
-      description:
-        example: A club for chess enthusiasts
+      createdAt:
         type: string
       id:
-        example: 1
         type: integer
-      name:
-        example: Chess Club
+      logo:
         type: string
-      rating:
-        example: 4.5
-        type: number
-      updated_at:
-        example: "2025-02-08T16:13:44Z"
+      name:
+        type: string
+      subdomain:
+        type: string
+      updatedAt:
         type: string
     type: object
   models.ClubListResponse:
@@ -65,6 +53,49 @@ definitions:
       data: {}
       message:
         example: Operation successful
+        type: string
+      status:
+        example: success
+        type: string
+    type: object
+  models.User:
+    properties:
+      club_id:
+        type: integer
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.UserListResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/models.User'
+        type: array
+      message:
+        example: Users retrieved successfully
+        type: string
+      status:
+        example: success
+        type: string
+    type: object
+  models.UserResponse:
+    properties:
+      data:
+        $ref: '#/definitions/models.User'
+      message:
+        example: User created successfully
         type: string
       status:
         example: success
@@ -210,4 +241,129 @@ paths:
       summary: Update a club
       tags:
       - clubs
+  /api/users:
+    get:
+      consumes:
+      - application/json
+      description: Get list of all users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserListResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Get all users
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Create a new user with the provided information
+      parameters:
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Create a new user
+      tags:
+      - users
+  /api/users/{id}:
+    delete:
+      description: Delete a user by their ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Delete a user
+      tags:
+      - users
+    get:
+      description: Get a user by their ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Get a user by ID
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update an existing user's information
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Update a user
+      tags:
+      - users
 swagger: "2.0"

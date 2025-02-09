@@ -1,0 +1,23 @@
+# Check PostgreSQL service status
+
+sudo service postgresql status
+
+Start PostgreSQL service
+
+sudo service postgresql start
+
+Verify PostgreSQL is running and get connection info
+
+sudo -u postgres psql -c "SELECT version();"
+
+Optional: Create your database if not exists
+
+sudo -u postgres createdb club_rank
+
+Optional: Create user if not exists
+
+sudo -u postgres createuser -P aswath
+
+Grant privileges
+
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE club_rank TO aswath;"
