@@ -11,7 +11,7 @@ import (
 // @version 1.0
 // @description API for managing club rankings, domains, and scoring systems
 // @host localhost:8080
-// @BasePath /api
+// @BasePath /
 func main() {
 	// Initialize DB
 	db, err := config.InitDB()

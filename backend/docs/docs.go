@@ -1048,7 +1048,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "localhost:8080",
-	BasePath:         "/api",
+	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Club Ranking System API",
 	Description:      "API for managing club rankings, domains, and scoring systems",

@@ -7,7 +7,7 @@
         "version": "1.0"
     },
     "host": "localhost:8080",
-    "basePath": "/api",
+    "basePath": "/",
     "paths": {
         "/api/clubs": {
             "get": {
