@@ -30,37 +30,58 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 			"status": "Backend is running",
 		})
 	})
+	domainRepo := repositories.NewDomainRepository(db)
+    domainService := services.NewDomainService(domainRepo)
+    domainController := controllers.NewDomainController(domainService)
 
 	// Initialize repositories, services, and controllers for users
-	userRepo := repositories.NewUserRepository(db)
-	userService := services.NewUserService(userRepo)
-	userController := controllers.NewUserController(userService)
 
 	// Initialize services and controllers for clubs
 	clubService := services.NewClubService(db)
 	clubController := controllers.NewClubController(clubService)
+
+	// Initialize repositories and services for rankings
+	rankingRepo := repositories.NewRankingRepository(db)
+	clubRepo := repositories.NewClubRepository(db)
+	domainRepo = repositories.NewDomainRepository(db)
+	studentRepo := repositories.NewStudentRepository(db)
+	rankingService := services.NewRankingService(rankingRepo, clubRepo, domainRepo, studentRepo)
+	rankingController := controllers.NewRankingController(rankingService)
 
 	// Apply middleware to the routes (auth middleware is applied here)
 	api := router.Group("/api") // Use "/api" as the base path
 	api.Use(middleware.Auth())  // Apply Auth middleware to all routes under /api
 
 	// User routes
-	{
-		api.GET("/users", userController.GetAllUsers)       // Get all users
-		api.GET("/users/:id", userController.GetUserByID)   // Get a single user by ID
-		api.POST("/users", userController.CreateUser)       // Create a new user
-		api.PUT("/users/:id", userController.UpdateUser)    // Update an existing user by ID
-		api.DELETE("/users/:id", userController.DeleteUser) // Delete a user by ID
-	}
+	clubs := api.Group("/clubs")
+    {
+        clubs.POST("", clubController.CreateClub)        // Create a new club
+        clubs.GET("", clubController.GetAllClubs)        // Get all clubs
+        clubs.GET("/:id", clubController.GetClubByID)    // Get a single club by ID
+        clubs.PUT("/:id", clubController.UpdateClub)     // Update an existing club by ID
+        clubs.DELETE("/:id", clubController.DeleteClub)  // Delete a club by ID
+        
+        // Nested domains route under clubs
+    }
 
-	// Club routes
-	{
-		api.POST("/clubs", clubController.CreateClub)       // Create a new club
-		api.GET("/clubs", clubController.GetAllClubs)       // Get all clubs
-		api.GET("/clubs/:id", clubController.GetClubByID)   // Get a single club by ID
-		api.PUT("/clubs/:id", clubController.UpdateClub)    // Update an existing club by ID
-		api.DELETE("/clubs/:id", clubController.DeleteClub) // Delete a club by ID
-	}
+    // Domain routes
+    domains := api.Group("/domains")
+    {
+        domains.POST("", domainController.CreateDomain)       // Create domain
+        domains.GET("", domainController.GetAllDomains)      // Get all domains
+        domains.GET("/:id", domainController.GetDomainByID)  // Get single domain
+        domains.PUT("/:id", domainController.UpdateDomain)   // Update domain
+        domains.DELETE("/:id", domainController.DeleteDomain) // Delete domain
+    }
 
-	return router
+    // Ranking routes
+    rankings := api.Group("/rankings")
+    {
+        rankings.POST("/calculate/:clubId", rankingController.CalculateRanking)
+        rankings.GET("", rankingController.GetAllRankings)
+        rankings.PUT("/criteria", rankingController.UpdateCriteria)
+        rankings.GET("/criteria", rankingController.GetCriteria)
+    }
+
+    return router
 }

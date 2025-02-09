@@ -1,4 +1,4 @@
-basePath: /
+basePath: /api
 definitions:
   models.Club:
     properties:
@@ -28,12 +28,74 @@ definitions:
         example: success
         type: string
     type: object
+  models.ClubRanking:
+    description: Overall ranking information for a club
+    properties:
+      club_id:
+        example: 1
+        type: integer
+      club_name:
+        example: Tech Club
+        type: string
+      overall_score:
+        example: 87.5
+        type: number
+      rank:
+        example: 1
+        type: integer
+    type: object
   models.ClubResponse:
     properties:
       data:
         $ref: '#/definitions/models.Club'
       message:
         example: Club created successfully
+        type: string
+      status:
+        example: success
+        type: string
+    type: object
+  models.Domain:
+    description: Domain model representing areas of expertise or departments within
+      a club
+    properties:
+      club_id:
+        example: 1
+        type: integer
+      created_at:
+        example: "2023-01-01T00:00:00Z"
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Technology
+        type: string
+    required:
+    - club_id
+    - name
+    type: object
+  models.DomainListResponse:
+    description: Response wrapper for multiple domains
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/models.Domain'
+        type: array
+      message:
+        example: Domains retrieved successfully
+        type: string
+      status:
+        example: success
+        type: string
+    type: object
+  models.DomainResponse:
+    description: Response wrapper for a single domain
+    properties:
+      data:
+        $ref: '#/definitions/models.Domain'
+      message:
+        example: Domain created successfully
         type: string
       status:
         example: success
@@ -47,6 +109,44 @@ definitions:
       status:
         example: error
         type: string
+    type: object
+  models.Ranking:
+    description: Ranking model for storing club scores based on different criteria
+    properties:
+      club_id:
+        example: 1
+        type: integer
+      created_at:
+        example: "2023-01-01T00:00:00Z"
+        type: string
+      criteria:
+        example: Technical Skills
+        type: string
+      id:
+        example: 1
+        type: integer
+      score:
+        example: 85.5
+        type: number
+      updated_at:
+        example: "2023-01-01T00:00:00Z"
+        type: string
+    type: object
+  models.RankingCriteria:
+    description: Criteria used for evaluating and ranking clubs
+    properties:
+      description:
+        example: Evaluation of technical capabilities
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Technical Skills
+        type: string
+      weight:
+        example: 0.4
+        type: number
     type: object
   models.Response:
     properties:
@@ -104,8 +204,8 @@ definitions:
 host: localhost:8080
 info:
   contact: {}
-  description: This is a sample server for a user API.
-  title: Swagger Example API
+  description: API for managing club rankings, domains, and scoring systems
+  title: Club Ranking System API
   version: "1.0"
 paths:
   /api/clubs:
@@ -156,6 +256,33 @@ paths:
       summary: Create a new club
       tags:
       - clubs
+  /api/clubs/{clubId}/domains:
+    get:
+      description: Retrieve all domains for a specific club
+      parameters:
+      - description: Club ID
+        in: path
+        name: clubId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DomainListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get domains by club ID
+      tags:
+      - domains
   /api/clubs/{id}:
     delete:
       description: Delete a club
@@ -241,6 +368,207 @@ paths:
       summary: Update a club
       tags:
       - clubs
+  /api/domains:
+    get:
+      description: Retrieve all domains in the system
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DomainListResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get all domains
+      tags:
+      - domains
+    post:
+      consumes:
+      - application/json
+      description: Create a new domain within the system
+      parameters:
+      - description: Domain object
+        in: body
+        name: domain
+        required: true
+        schema:
+          $ref: '#/definitions/models.Domain'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.DomainResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Create a new domain
+      tags:
+      - domains
+  /api/domains/{id}:
+    delete:
+      description: Delete a domain by its ID
+      parameters:
+      - description: Domain ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Delete a domain
+      tags:
+      - domains
+    get:
+      description: Retrieve a single domain by its ID
+      parameters:
+      - description: Domain ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DomainResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get domain by ID
+      tags:
+      - domains
+    put:
+      consumes:
+      - application/json
+      description: Update domain by its ID
+      parameters:
+      - description: Domain ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Domain object
+        in: body
+        name: domain
+        required: true
+        schema:
+          $ref: '#/definitions/models.Domain'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DomainResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update a domain
+      tags:
+      - domains
+  /api/rankings:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ClubRanking'
+            type: array
+      summary: Get all club rankings
+      tags:
+      - rankings
+  /api/rankings/calculate/{clubId}:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Club ID
+        in: path
+        name: clubId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Ranking'
+      summary: Calculate ranking for a club
+      tags:
+      - rankings
+  /api/rankings/criteria:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.RankingCriteria'
+            type: array
+      summary: Get ranking criteria
+      tags:
+      - rankings
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Ranking criteria
+        in: body
+        name: criteria
+        required: true
+        schema:
+          $ref: '#/definitions/models.RankingCriteria'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update ranking criteria
+      tags:
+      - rankings
   /api/users:
     get:
       consumes:

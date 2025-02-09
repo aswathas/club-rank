@@ -1,10 +1,12 @@
 package models
 
-import "gorm.io/gorm"
+import "time"
 
 type Score struct {
-	gorm.Model
-	UserID uint `json:"user_id"`
-	ClubID uint `json:"club_id"`
-	Score  int  `json:"score"`
+	ID        uint      `json:"id" gorm:"primaryKey"`
+	StudentID uint      `json:"student_id" gorm:"not null"`
+	DomainID  uint      `json:"domain_id" gorm:"not null"`
+	Score     int       `json:"score" gorm:"not null"`
+	Month     time.Time `json:"month" gorm:"not null"`
+	CreatedAt time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP"`
 }

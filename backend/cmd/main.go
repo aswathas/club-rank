@@ -7,12 +7,11 @@ import (
 	"log"
 )
 
-// @title Swagger Example API
+// @title Club Ranking System API
 // @version 1.0
-// @description This is a sample server for a user API.
+// @description API for managing club rankings, domains, and scoring systems
 // @host localhost:8080
-// @BasePath /
-// main.go
+// @BasePath /api
 func main() {
 	// Initialize DB
 	db, err := config.InitDB()
