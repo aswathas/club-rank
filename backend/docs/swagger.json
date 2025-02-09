@@ -1,18 +1,9 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a sample server for Club Rank.",
-        "title": "Club Rank API",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
+        "description": "This is a sample server for a user API.",
+        "title": "Swagger Example API",
+        "contact": {},
         "version": "1.0"
     },
     "host": "localhost:8080",
@@ -86,32 +77,6 @@
                         "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/models.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/clubs": {
-            "get": {
-                "description": "Get list of all clubs",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "clubs"
-                ],
-                "summary": "Get club list",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Club"
-                            }
                         }
                     }
                 }

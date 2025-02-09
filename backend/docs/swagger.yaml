@@ -72,16 +72,9 @@ definitions:
     type: object
 host: localhost:8080
 info:
-  contact:
-    email: support@swagger.io
-    name: API Support
-    url: http://www.swagger.io/support
-  description: This is a sample server for Club Rank.
-  license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  termsOfService: http://swagger.io/terms/
-  title: Club Rank API
+  contact: {}
+  description: This is a sample server for a user API.
+  title: Swagger Example API
   version: "1.0"
 paths:
   /api/clubs:
@@ -132,24 +125,7 @@ paths:
       summary: Create a new club
       tags:
       - clubs
-  /clubs:
-    get:
-      consumes:
-      - application/json
-      description: Get list of all clubs
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.Club'
-            type: array
-      summary: Get club list
-      tags:
-      - clubs
-  /clubs/{id}:
+  /api/clubs/{id}:
     delete:
       description: Delete a club
       parameters:

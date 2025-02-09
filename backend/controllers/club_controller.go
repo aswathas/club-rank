@@ -86,7 +86,7 @@ func (c *ClubController) GetAllClubs(ctx *gin.Context) {
 // @Success 200 {object} models.Club
 // @Failure 400 {object} models.ErrorResponse
 // @Failure 404 {object} models.ErrorResponse
-// @Router /clubs/{id} [get]
+// @Router /api/clubs/{id} [get]
 func (c *ClubController) GetClubByID(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
@@ -120,7 +120,7 @@ func (c *ClubController) GetClubByID(ctx *gin.Context) {
 // @Success 200 {object} models.Club
 // @Failure 400 {object} models.ErrorResponse
 // @Failure 500 {object} models.ErrorResponse
-// @Router /clubs/{id} [put]
+// @Router /api/clubs/{id} [put]
 func (c *ClubController) UpdateClub(ctx *gin.Context) {
 	var club models.Club
 	if err := ctx.ShouldBindJSON(&club); err != nil {
@@ -150,7 +150,7 @@ func (c *ClubController) UpdateClub(ctx *gin.Context) {
 // @Success 200 {object} models.Response
 // @Failure 400 {object} models.ErrorResponse
 // @Failure 500 {object} models.ErrorResponse
-// @Router /clubs/{id} [delete]
+// @Router /api/clubs/{id} [delete]
 func (c *ClubController) DeleteClub(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {

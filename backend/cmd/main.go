@@ -1,41 +1,31 @@
 package main
 
 import (
-	"club-rank/config"
-	"club-rank/docs"
-	"club-rank/routes"
+	"backend/config"
+	_ "backend/docs" // Ensure your Swagger docs are generated here
+	"backend/routes"
 	"log"
-
-	"github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
-// @title Club Rank API
+// @title Swagger Example API
 // @version 1.0
-// @description This is a sample server for Club Rank.
-// @termsOfService http://swagger.io/terms/
-// @contact.name API Support
-// @contact.url http://www.swagger.io/support
-// @contact.email support@swagger.io
-// @license.name Apache 2.0
-// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @description This is a sample server for a user API.
 // @host localhost:8080
 // @BasePath /
+// main.go
 func main() {
-    // Initialize DB
-    db, err := config.InitDB()
-    if err != nil {
-        log.Fatalf("Error connecting to database: %v", err)
-    }
+	// Initialize DB
+	db, err := config.InitDB()
+	if err != nil {
+		log.Fatalf("Error connecting to database: %v", err)
+	}
 
-    // Initialize router
-    router := routes.SetupRouter(db)
+	// Initialize router and pass the db connection
+	router := routes.SetupRouter(db)
 
-    // Swagger documentation
-    router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-    // Start server
-    if err := router.Run(":8080"); err != nil {
-        log.Fatalf("Server failed to start: %v", err)
-    }
+	// Start server
+	log.Println("Starting server on http://localhost:8080")
+	if err := router.Run(":8080"); err != nil {
+		log.Fatalf("Server failed to start: %v", err)
+	}
 }

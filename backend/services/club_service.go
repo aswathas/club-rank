@@ -2,7 +2,7 @@ package services
 
 import (
 	"backend/models"
-	"backend/config"
+	"gorm.io/gorm"
 )
 
 type ClubService interface {
@@ -13,32 +13,37 @@ type ClubService interface {
 	DeleteClub(id uint) error
 }
 
-type clubService struct{}
+type clubService struct {
+	db *gorm.DB
+}
 
-func NewClubService() ClubService {
-	return &clubService{}
+func NewClubService(db *gorm.DB) ClubService {
+	return &clubService{db: db}
 }
 
 func (s *clubService) CreateClub(club models.Club) error {
-	return config.DB.Create(&club).Error
+	return s.db.Create(&club).Error
 }
 
 func (s *clubService) GetAllClubs() ([]models.Club, error) {
 	var clubs []models.Club
-	err := config.DB.Find(&clubs).Error
+	err := s.db.Find(&clubs).Error
 	return clubs, err
 }
 
 func (s *clubService) GetClubByID(id uint) (models.Club, error) {
 	var club models.Club
-	err := config.DB.First(&club, id).Error
+	err := s.db.First(&club, id).Error
+	if err == gorm.ErrRecordNotFound {
+		return models.Club{}, err
+	}
 	return club, err
 }
 
 func (s *clubService) UpdateClub(club models.Club) error {
-	return config.DB.Save(&club).Error
+	return s.db.Save(&club).Error
 }
 
 func (s *clubService) DeleteClub(id uint) error {
-	return config.DB.Delete(&models.Club{}, id).Error
+	return s.db.Delete(&models.Club{}, id).Error
 }

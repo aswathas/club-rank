@@ -9,16 +9,7 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
+        "contact": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -97,33 +88,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/clubs": {
-            "get": {
-                "description": "Get list of all clubs",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "clubs"
-                ],
-                "summary": "Get club list",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Club"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/clubs/{id}": {
+        "/api/clubs/{id}": {
             "get": {
                 "description": "Get a club by ID",
                 "produces": [
@@ -361,8 +326,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:8080",
 	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "Club Rank API",
-	Description:      "This is a sample server for Club Rank.",
+	Title:            "Swagger Example API",
+	Description:      "This is a sample server for a user API.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",
