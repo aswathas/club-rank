@@ -1,17 +1,16 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
-// Club represents a club entity
 type Club struct {
-	ID          uint      `json:"id" example:"1"`
-	CreatedAt   time.Time `json:"created_at" example:"2025-02-08T16:13:44Z"`
-	UpdatedAt   time.Time `json:"updated_at" example:"2025-02-08T16:13:44Z"`
-	DeletedAt   *time.Time `json:"deleted_at,omitempty" swaggertype:"string" example:"null"`
-	Name        string    `json:"name" example:"Chess Club"`
-	Description string    `json:"description" example:"A club for chess enthusiasts"`
-	Category    string    `json:"category" example:"Sports"`
-	Rating      float64   `json:"rating" example:"4.5"`
+	ID        uint      `json:"id" example:"1"`
+	CreatedAt time.Time `json:"created_at" example:"2025-02-08T16:13:44Z"`
+	UpdatedAt time.Time `json:"updated_at" example:"2025-02-08T16:13:44Z"`
+	Name      string    `json:"name" example:"Chess Club"`
+	Logo      string    `json:"logo"`
+	Subdomain string    `json:"subdomain" example:"chess-club"`
 }
 
 // ClubResponse represents the response for a club operation
