@@ -14,12 +14,11 @@ CREATE TABLE users (
 CREATE TABLE clubs (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    logo TEXT,
-    subdomain VARCHAR(255) UNIQUE NOT NULL,
+    logo VARCHAR(255),
+    subdomain VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 -- Create domains table
 CREATE TABLE domains (
     id SERIAL PRIMARY KEY,
